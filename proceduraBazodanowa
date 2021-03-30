@@ -1,0 +1,43 @@
+DECLARE @return_value int
+EXEC    @return_value = [helper].[INSERT_NOTIFICATION]
+        @COMPANY_ID = 636,
+        @VEHICLE_ID =19145,
+		@DRIVER_ID = NULL,
+		@VEHICLE_GROUP_ID = NULL,
+		@DRIVER_GROUP_ID = NULL,
+        @NOTIFICATION_TYPE = 6,
+        @DATE_START = 2023-03-26,
+        @PERIODICITY = 24,
+        @SEND_TO_DRIVERS = 0,
+        @TITLE = 'Okresowe Badanie Techniczne',
+        @MESSAGE = '<p>Za miesiąc minie termin badania technicznego.</p>
+<p>
+    Raport Vaiap „FLOTA ważne daty”
+<ol>
+    <li>Sprawdzenie dat ważności kolumna „Badanie techniczne do”
+    <li>
+        Gdy kończy się, sprawdzenie w kolumnie „Plany flotowe”
+        <ul>
+            <li>Jeżeli sprzedaż
+                nie przeprowadzamy badania, datę sprzedaży ustalamy przed końcem terminu badania, polisy i kontraktu
+            </li>
+        </ul>
+    <li> Gdy przedłużenie (o rok i więcej)</li>
+    <ul>
+        <li>Sprawdzamy gdzie jest DR (kolumna Dowód rejestracyjny)</li>
+        <li>Gdy „w firmie”, wysyłamy do pracownika, zmieniamy status na „u pracownika”</li>
+        <li>Wysyłamy mailową informację do pracownika,</li>
+        <li>(co i dlaczego dostanie, jaki przegląd, jak płaci, jak opisuje FV, jak i kiedy odesła DR i dokumenty)</li>
+        <li>Po otrzymaniu zwrotu dokumentów i DR od pracownika zmieniamy dane w raporcie Vaiap „Flota ważne daty” (data badania technicznego, status DR)</li>
+        <li>Ustawiamy nowe przypomnienie w Ecologic</li>
+        <li>Robimy skan do folderu FLOTA>Skany dowodów… (nr rej w nazwie)</li>
+        <li>Robimy nowy skan polisy i DR do kafelka „Polisa OC/AC”</li>
+        <li>Wprowadzamy załącznik do Ecologic</li>
+    </ul>
+</ol>
+</p>',
+        @EMAIL = 'michal@ecologic.io',
+        @AT_MILEAGE = NULL,
+        @IN_EVERY_KM = NULL;
+
+
