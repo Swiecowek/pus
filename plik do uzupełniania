@@ -1,0 +1,76 @@
+import sys
+from openpyxl import load_workbook
+
+wb = load_workbook(filename = 'a.xlsx')
+sheet_ranges = wb['Sheet1']
+
+# dodaję zestaw zmiennych do pętli przechodzącej przez cały arkusz
+lp = 1
+A = 1
+B = sheet_ranges['A'+A].value
+while lp != '':
+    A=A+1
+    print(x)
+
+# dodaję zestaw zmiennych 
+
+companyId = str(sheet_ranges['A'+A].value)
+
+
+
+print('DECLAREEXEC  INSERT_NwTIFICATION'
+    )
+
+original_stdout = sys.stdout # Save a reference to the original standard output
+
+
+x = '''DECLARE @return_value int \n
+EXEC    @return_value = [helper].[INSERT_NOTIFICATION] \n
+        @COMPANY_ID = '''+companyId+''', \n
+        @VEHICLE_ID =19145, \n
+		@DRIVER_ID = NULL, \n
+		@VEHICLE_GROUP_ID = NULL, \n
+		@DRIVER_GROUP_ID = NULL, \n
+        @NOTIFICATION_TYPE = 6, \n
+        @DATE_START = 2023-03-26, \n
+        @PERIODICITY = 24, \n
+        @SEND_TO_DRIVERS = 0, \n
+        @TITLE = "Okresowe Badanie Techniczne", \n
+         @MESSAGE = '<p>Za miesiąc minie termin badania technicznego.</p>
+<p>
+    Raport Vaiap „FLOTA ważne daty”
+<ol>
+    <li>Sprawdzenie dat ważności kolumna „Badanie techniczne do”
+    <li>
+        Gdy kończy się, sprawdzenie w kolumnie „Plany flotowe”
+        <ul>
+            <li>Jeżeli sprzedaż
+                nie przeprowadzamy badania, datę sprzedaży ustalamy przed końcem terminu badania, polisy i kontraktu
+            </li>
+        </ul>
+    <li> Gdy przedłużenie (o rok i więcej)</li>
+    <ul>
+        <li>Sprawdzamy gdzie jest DR (kolumna Dowód rejestracyjny)</li>
+        <li>Gdy „w firmie”, wysyłamy do pracownika, zmieniamy status na „u pracownika”</li>
+        <li>Wysyłamy mailową informację do pracownika,</li>
+        <li>(co i dlaczego dostanie, jaki przegląd, jak płaci, jak opisuje FV, jak i kiedy odesła DR i dokumenty)</li>
+        <li>Po otrzymaniu zwrotu dokumentów i DR od pracownika zmieniamy dane w raporcie Vaiap „Flota ważne daty” (data badania technicznego, status DR)</li>
+        <li>Ustawiamy nowe przypomnienie w Ecologic</li>
+        <li>Robimy skan do folderu FLOTA>Skany dowodów… (nr rej w nazwie)</li>
+        <li>Robimy nowy skan polisy i DR do kafelka „Polisa OC/AC”</li>
+        <li>Wprowadzamy załącznik do Ecologic</li>
+    </ul>
+</ol>
+</p>',\n
+        @EMAIL = 'michal@ecologic.io',\n
+        @AT_MILEAGE = NULL,\n
+        @IN_EVERY_KM = NULL;\n
+        
+        
+        '''
+
+
+with open('filename.sql', 'w') as f:
+    sys.stdout = f # Change the standard output to the file we created.
+    print(x)
+    sys.stdout = original_stdout # Reset the standard output to its original value
